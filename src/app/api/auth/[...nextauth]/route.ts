@@ -18,7 +18,16 @@ export const authOptions: NextAuthOptions = {
         strategy: "jwt",
         maxAge: 10800
     },
-    
+    callbacks: {
+        jwt({token, user}) {
+ 
+            return {...user, ...token}
+        },
+        session({session, token}){
+            session.user = token;
+            return session;
+        }
+    }
 };
 
 const handler = NextAuth(authOptions);
